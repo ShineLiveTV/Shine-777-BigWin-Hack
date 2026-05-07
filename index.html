@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>bigwin</title>
+<title>777 Wingo Hack</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -28,7 +31,7 @@ html,body{
 }
 
 .float-btn{
-  display:none; /* Login မဝင်ခင် ဖျောက်ထားမည် */
+  display:none; 
   position:fixed;
   bottom:45px;
   right:20px;
@@ -38,11 +41,11 @@ html,body{
   color:#FFD700;
   font-weight:700;
   font-size:14px;
-  cursor:move; /* လက်နဲ့ရွှေ့နိုင်ကြောင်း ပြသည့်သင်္ကေတ */
+  cursor:move; 
   z-index:999;
   border:1px solid rgba(255,215,0,0.4);
-  user-select: none; /* စာသားတွေကို Select မဖြစ်အောင်တားဆီးခြင်း */
-  touch-action: none; /* မိုဘိုင်းတွင် Default Touch Action ကို ပိတ်ခြင်း */
+  user-select: none; 
+  touch-action: none; 
 }
 
 .panel-wrap{
@@ -112,7 +115,6 @@ th{color:#FFD700;}
 .bg-g{background:#4caf50;}
 .bg-r{background:#f44336;}
 
-/* Panel အတွင်းမှာ ပြမည့် Result Alert ဒီဇိုင်းအသစ် */
 .inner-alert{
   display: none; 
   font-size: 1.2rem;
@@ -136,7 +138,6 @@ th{color:#FFD700;}
   background: rgba(244,67,54,0.1);
 }
 
-/* Login Pane အတွက် CSS */
 .login-overlay{
   position:fixed;
   inset:0;
@@ -171,9 +172,8 @@ th{color:#FFD700;}
   animation: scrollMarquee 20s linear infinite;
 }
 
-/* Login ဝင်ပြီးနောက် ဂိမ်းမျက်နှာပြင်ပေါ်တွင် ပြေးမည့် စာတန်းအတွက် CSS */
 .in-game-marquee-wrapper {
-  display: none; /* Login ဝင်ပြီးမှ ပေါ်မည် */
+  display: none; 
   position: fixed;
   top: 20px;
   left: 50%;
@@ -186,7 +186,7 @@ th{color:#FFD700;}
   padding: 10px 0;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(255, 68, 68, 0.4);
-  z-index: 997; /* Panel အောက်နားလေးမှာ ရှိနေရန် */
+  z-index: 997; 
 }
 .in-game-marquee-text {
   display: inline-block;
@@ -234,8 +234,8 @@ th{color:#FFD700;}
   color:#fff;
   font-size:16px;
   outline:none;
-  text-align: center;
-  text-transform: uppercase;
+  text-transform:uppercase;
+  text-align:center;
 }
 .login-input:focus{
   border-color:#FFD700;
@@ -289,10 +289,10 @@ th{color:#FFD700;}
     
     <div id="formWrap">
       <input type="text" id="keyInput" class="login-input" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19">
-      <button id="loginBtn" class="login-btn">🔑 LOGIN</button>
+      <button id="loginBtn" class="login-btn">LOGIN</button>
     </div>
     
-    <div id="errorMsg" class="error-msg"></div>
+    <div id="errorMsg" class="error-msg">Incorrect Key!</div>
     
     <a href="https://t.me/shinemovierecap1" target="_blank" class="telegram-link">Telegram Channel Join ရန်နှိပ်ပါ</a>
   </div>
@@ -304,18 +304,16 @@ th{color:#FFD700;}
   </div>
 </div>
 
-<iframe class="bg-web" src="https://bigwingame.win/#/register?invitationCode=38683259145"></iframe>
+<iframe class="bg-web" src="https://bigwinqaz.com/#/register?invitationCode=38683259145"></iframe>
 
 <div class="float-btn" id="floatBtn">SHOW PANEL</div>
 
 <div class="panel-wrap" id="panelWrap">
   <div class="panel">
     <h2 style="text-align:center;color:#FFD700;">WINGO HACK</h2>
-    
     <div style="text-align:center; margin-top:8px; margin-bottom:12px; font-size:0.85rem; color:#fff; background:rgba(255,215,0,0.1); padding:8px; border-radius:8px; border:1px solid rgba(255,215,0,0.3);">
       VIP ကျန်ချိန်: <br> <span id="vipTimer" style="color:#00e676; font-weight:bold; font-size:1.1rem;">တွက်ချက်နေသည်...</span>
     </div>
-
     <div style="text-align:center;margin:8px 0;color:#FFD700;">
       Bet Amounts: <span id="martingaleLevel" style="color:white; font-weight:bold;">100 ထိုးပါ</span>
     </div>
@@ -401,8 +399,7 @@ function startVipTimer(expiryTs) {
                (m < 10 ? "0"+m : m) + " မိနစ် " +
                (s < 10 ? "0"+s : s) + " စက္ကန့်";
 
-    const vt = document.getElementById("vipTimer");
-    if(vt) vt.innerText = timeStr;
+    document.getElementById("vipTimer").innerText = timeStr;
   }, 1000);
 }
 
@@ -430,7 +427,6 @@ async function processLogin(key) {
 
     localStorage.setItem("__saved_key", key);
     
-    // Login ဝင်ပြီးပါက ပြောင်းလဲမှုများ
     document.getElementById("loginOverlay").style.display = "none";
     document.getElementById("floatBtn").style.display = "block";
     document.getElementById("inGameMarquee").style.display = "block";
@@ -441,7 +437,6 @@ async function processLogin(key) {
     errorMsg.innerText = err.message;
     errorMsg.style.display = "block";
     localStorage.removeItem("__saved_key"); 
-    
     document.getElementById("formWrap").style.display = "block";
     document.getElementById("loadingText").style.display = "none";
   }
@@ -457,7 +452,6 @@ if (savedKey) {
   processLogin(savedKey);
 }
 
-// --- Drag Function for SHOW PANEL button (မူရင်းအတိုင်း) ---
 const floatBtn = document.getElementById("floatBtn");
 const panelWrap = document.getElementById("panelWrap");
 let isDragging = false;
@@ -530,7 +524,6 @@ floatBtn.addEventListener('click', function() {
     }
 });
 
-// --- Original Hack Logic (မူရင်းအတိုင်း) ---
 const martingaleLevel=document.getElementById("martingaleLevel");
 
 let martingale=1;
@@ -635,18 +628,19 @@ panelWrap.addEventListener('click', function(e) {
     panelWrap.classList.remove('show');
   }
 });
-
-// အမြဲတမ်း API ဆွဲနေရန်
-getData().then(render);
 </script>
 
 </body>
-</html><!DOCTYPE html>
+</html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>bigwin</title>
+<title>777 Wingo Hack</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -671,7 +665,7 @@ html,body{
 }
 
 .float-btn{
-  display:none; /* Login မဝင်ခင် ဖျောက်ထားမည် */
+  display:none; 
   position:fixed;
   bottom:45px;
   right:20px;
@@ -681,11 +675,11 @@ html,body{
   color:#FFD700;
   font-weight:700;
   font-size:14px;
-  cursor:move; /* လက်နဲ့ရွှေ့နိုင်ကြောင်း ပြသည့်သင်္ကေတ */
+  cursor:move; 
   z-index:999;
   border:1px solid rgba(255,215,0,0.4);
-  user-select: none; /* စာသားတွေကို Select မဖြစ်အောင်တားဆီးခြင်း */
-  touch-action: none; /* မိုဘိုင်းတွင် Default Touch Action ကို ပိတ်ခြင်း */
+  user-select: none; 
+  touch-action: none; 
 }
 
 .panel-wrap{
@@ -755,7 +749,6 @@ th{color:#FFD700;}
 .bg-g{background:#4caf50;}
 .bg-r{background:#f44336;}
 
-/* Panel အတွင်းမှာ ပြမည့် Result Alert ဒီဇိုင်းအသစ် */
 .inner-alert{
   display: none; 
   font-size: 1.2rem;
@@ -779,7 +772,6 @@ th{color:#FFD700;}
   background: rgba(244,67,54,0.1);
 }
 
-/* Login Pane အတွက် CSS */
 .login-overlay{
   position:fixed;
   inset:0;
@@ -814,9 +806,8 @@ th{color:#FFD700;}
   animation: scrollMarquee 20s linear infinite;
 }
 
-/* Login ဝင်ပြီးနောက် ဂိမ်းမျက်နှာပြင်ပေါ်တွင် ပြေးမည့် စာတန်းအတွက် CSS */
 .in-game-marquee-wrapper {
-  display: none; /* Login ဝင်ပြီးမှ ပေါ်မည် */
+  display: none; 
   position: fixed;
   top: 20px;
   left: 50%;
@@ -829,7 +820,7 @@ th{color:#FFD700;}
   padding: 10px 0;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(255, 68, 68, 0.4);
-  z-index: 997; /* Panel အောက်နားလေးမှာ ရှိနေရန် */
+  z-index: 997; 
 }
 .in-game-marquee-text {
   display: inline-block;
@@ -877,8 +868,8 @@ th{color:#FFD700;}
   color:#fff;
   font-size:16px;
   outline:none;
-  text-align: center;
-  text-transform: uppercase;
+  text-transform:uppercase;
+  text-align:center;
 }
 .login-input:focus{
   border-color:#FFD700;
@@ -932,10 +923,10 @@ th{color:#FFD700;}
     
     <div id="formWrap">
       <input type="text" id="keyInput" class="login-input" placeholder="XXXX-XXXX-XXXX-XXXX" maxlength="19">
-      <button id="loginBtn" class="login-btn">🔑 LOGIN</button>
+      <button id="loginBtn" class="login-btn">LOGIN</button>
     </div>
     
-    <div id="errorMsg" class="error-msg"></div>
+    <div id="errorMsg" class="error-msg">Incorrect Key!</div>
     
     <a href="https://t.me/shinemovierecap1" target="_blank" class="telegram-link">Telegram Channel Join ရန်နှိပ်ပါ</a>
   </div>
@@ -947,18 +938,16 @@ th{color:#FFD700;}
   </div>
 </div>
 
-<iframe class="bg-web" src="https://bigwingame.win/#/register?invitationCode=38683259145"></iframe>
+<iframe class="bg-web" src="https://bigwinqaz.com/#/register?invitationCode=38683259145"></iframe>
 
 <div class="float-btn" id="floatBtn">SHOW PANEL</div>
 
 <div class="panel-wrap" id="panelWrap">
   <div class="panel">
     <h2 style="text-align:center;color:#FFD700;">WINGO HACK</h2>
-    
     <div style="text-align:center; margin-top:8px; margin-bottom:12px; font-size:0.85rem; color:#fff; background:rgba(255,215,0,0.1); padding:8px; border-radius:8px; border:1px solid rgba(255,215,0,0.3);">
       VIP ကျန်ချိန်: <br> <span id="vipTimer" style="color:#00e676; font-weight:bold; font-size:1.1rem;">တွက်ချက်နေသည်...</span>
     </div>
-
     <div style="text-align:center;margin:8px 0;color:#FFD700;">
       Bet Amounts: <span id="martingaleLevel" style="color:white; font-weight:bold;">100 ထိုးပါ</span>
     </div>
@@ -1044,8 +1033,7 @@ function startVipTimer(expiryTs) {
                (m < 10 ? "0"+m : m) + " မိနစ် " +
                (s < 10 ? "0"+s : s) + " စက္ကန့်";
 
-    const vt = document.getElementById("vipTimer");
-    if(vt) vt.innerText = timeStr;
+    document.getElementById("vipTimer").innerText = timeStr;
   }, 1000);
 }
 
@@ -1073,7 +1061,6 @@ async function processLogin(key) {
 
     localStorage.setItem("__saved_key", key);
     
-    // Login ဝင်ပြီးပါက ပြောင်းလဲမှုများ
     document.getElementById("loginOverlay").style.display = "none";
     document.getElementById("floatBtn").style.display = "block";
     document.getElementById("inGameMarquee").style.display = "block";
@@ -1084,7 +1071,6 @@ async function processLogin(key) {
     errorMsg.innerText = err.message;
     errorMsg.style.display = "block";
     localStorage.removeItem("__saved_key"); 
-    
     document.getElementById("formWrap").style.display = "block";
     document.getElementById("loadingText").style.display = "none";
   }
@@ -1100,7 +1086,6 @@ if (savedKey) {
   processLogin(savedKey);
 }
 
-// --- Drag Function for SHOW PANEL button (မူရင်းအတိုင်း) ---
 const floatBtn = document.getElementById("floatBtn");
 const panelWrap = document.getElementById("panelWrap");
 let isDragging = false;
@@ -1173,7 +1158,6 @@ floatBtn.addEventListener('click', function() {
     }
 });
 
-// --- Original Hack Logic (မူရင်းအတိုင်း) ---
 const martingaleLevel=document.getElementById("martingaleLevel");
 
 let martingale=1;
@@ -1278,10 +1262,7 @@ panelWrap.addEventListener('click', function(e) {
     panelWrap.classList.remove('show');
   }
 });
-
-// အမြဲတမ်း API ဆွဲနေရန်
-getData().then(render);
 </script>
 
 </body>
-</html>  
+</html>
