@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>bigwin</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{
+  width:100%;
+  height:100%;
+  font-family:'Inter',sans-serif;
+  background:#0d0d0d;
+  color:#eee;
+}
+
+.bg-web{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:none;
+  z-index:1;
+  filter:brightness(0.9);
+}
+
+.float-btn{
+  display:none; /* Login မဝင်ခင် ဖျောက်ထားမည် */
+  position:fixed;
+  bottom:45px;
+  right:20px;
+  padding:12px 22px;
+  border-radius:10px;
+  background:rgba(30,30,30,0.85);
+  color:#FFD700;
+  font-weight:700;
+  font-size:14px;
+  cursor:move; /* လက်နဲ့ရွှေ့နိုင်ကြောင်း ပြသည့်သင်္ကေတ */
+  z-index:999;
+  border:1px solid rgba(255,215,0,0.4);
+  user-select: none; /* စာသားတွေကို Select မဖြစ်အောင်တားဆီးခြင်း */
+  touch-action: none; /* မိုဘိုင်းတွင် Default Touch Action ကို ပိတ်ခြင်း */
+}
+
+.panel-wrap{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:rgba(0,0,0,0.55);
+  z-index:998;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+}
+.panel-wrap.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.panel{
+  width:300px;
+  max-height:70vh;
+  overflow-y:auto;
+  background:rgba(20,20,20,0.95);
+  border-radius:18px;
+  padding:18px;
+  border:1px solid rgba(255,215,0,0.15);
+}
+
+.result-text{
+  font-size:1.5rem;
+  margin:8px 0;
+  border-radius:10px;
+  padding:10px;
+  text-align:center;
+  font-weight:700;
+  background:rgba(40,40,40,0.75);
+}
+.big-res{color:#4caf50;}
+.small-res{color:#f44336;}
+.skip-res{color:#999;}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+  font-size:0.85rem;
+}
+th, td{
+  padding:6px;
+  text-align:center;
+  border-bottom:1px solid rgba(255,215,0,0.2);
+}
+th{color:#FFD700;}
+
+.res-circle{
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:0 auto;
+  font-weight:600;
+  font-size:0.8rem;
+}
+.bg-g{background:#4caf50;}
+.bg-r{background:#f44336;}
+
+/* Panel အတွင်းမှာ ပြမည့် Result Alert ဒီဇိုင်းအသစ် */
+.inner-alert{
+  display: none; 
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: 2px solid;
+}
+.inner-alert.win{
+  display: block;
+  color:#4caf50;
+  border-color: #4caf50;
+  background: rgba(76,175,80,0.1);
+}
+.inner-alert.lose{
+  display: block;
+  color:#f44336;
+  border-color: #f44336;
+  background: rgba(244,67,54,0.1);
+}
+
+/* Login Pane အတွက် CSS */
+.login-overlay{
+  position:fixed;
+  inset:0;
+  background:#0d0d0d;
+  z-index:9999;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction: column;
+}
+
+.marquee-wrapper {
+  position: absolute;
+  top: 40px;
+  width: 90%;
+  max-width: 500px;
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px solid rgba(255, 215, 0, 0.4);
+  border-radius: 25px;
+  padding: 12px 0;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+.marquee-text {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #FFD700;
+  text-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+  padding-left: 100%;
+  animation: scrollMarquee 20s linear infinite;
+}
+
+/* Login ဝင်ပြီးနောက် ဂိမ်းမျက်နှာပြင်ပေါ်တွင် ပြေးမည့် စာတန်းအတွက် CSS */
+.in-game-marquee-wrapper {
+  display: none; /* Login ဝင်ပြီးမှ ပေါ်မည် */
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 600px;
+  background: linear-gradient(90deg, rgba(20,20,20,0.9), rgba(40,10,10,0.95), rgba(20,20,20,0.9));
+  border: 1px solid rgba(255, 68, 68, 0.6);
+  border-radius: 30px;
+  padding: 10px 0;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(255, 68, 68, 0.4);
+  z-index: 997; /* Panel အောက်နားလေးမှာ ရှိနေရန် */
+}
+.in-game-marquee-text {
+  display: inline-block;
+  white-space: nowrap;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #ffcccc;
+  text-shadow: 0 0 10px rgba(255, 68, 68, 0.8), 0 0 20px rgba(255, 0, 0, 0.5);
+  padding-left: 100%;
+  animation: scrollMarquee 25s linear infinite;
+}
+
+@keyframes scrollMarquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+.login-box{
+  background:rgba(20,20,20,0.95);
+  border:1px solid rgba(255,215,0,0.4);
+  padding:30px;
+  border-radius:15px;
+  text-align:center;
+  width:300px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+.login-box h2{
+  color:#FFD700;
+  margin-bottom:10px;
+  font-size: 1.3rem;
+}
+.login-box p{
+  color: #eee;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+.login-input{
+  width:100%;
+  padding:12px;
+  margin-bottom:20px;
+  border-radius:8px;
+  border:1px solid rgba(255,215,0,0.2);
+  background:#1a1a1a;
+  color:#fff;
+  font-size:16px;
+  outline:none;
+}
+.login-input:focus{
+  border-color:#FFD700;
+}
+.login-btn{
+  width:100%;
+  padding:12px;
+  background:#FFD700;
+  color:#000;
+  font-weight:700;
+  font-size:16px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  transition:0.2s;
+}
+.login-btn:active{
+  transform:scale(0.98);
+}
+.error-msg{
+  color:#f44336;
+  font-size:0.85rem;
+  margin-top:10px;
+  display:none;
+}
+.telegram-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: #4caf50;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #4caf50;
+  padding-bottom: 2px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-overlay" id="loginOverlay">
+  <div class="marquee-wrapper">
+    <div class="marquee-text">Hello Shine BigWin Hack User မင်္ဂလာပါခင်ဗျ 777 BIG WIN (WIN GO_HACK) ဂိမ်းဆိုဒ်ကြီးမှ ကြိုဆိုပါတယ် ပွဲစဥ်တိုင်း အနိုင်ရပါစေကြောင်းနှင့် အမြတ်ငွေများစွာ ထုပ်ယူနိုင်ပါစေကြောင်း ဆုမွန်ကောင်းတောင်းပေးလိုက်ပါတယ် ခင်​ဗျ</div>
+  </div>
+
+  <div class="login-box">
+    <h2>777 BIG WIN (WIN GO_HACK)</h2>
+    <p>စက္ကန့် ၃၀ အခန်းကို 99% hack ထားပေးပါတယ်။</p>
+    
+    <input type="password" id="passInput" class="login-input" placeholder="Enter Password">
+    <button class="login-btn" onclick="checkLogin()">LOGIN</button>
+    <div id="errorMsg" class="error-msg">Incorrect Password!</div>
+    
+    <a href="https://t.me/shinemovierecap1" target="_blank" class="telegram-link">Telegram Channel Join ရန်နှိပ်ပါ</a>
+  </div>
+</div>
+
+<div class="in-game-marquee-wrapper" id="inGameMarquee">
+  <div class="in-game-marquee-text">
+    Hello လူကြီးမင်းများ ခင်ဗျာ 777 Wingo Hack ဂိမ်းကို အနည်းဆုံး ( ၁၀၀ ) ကနေဘဲ ထိုးပေးကြပါ လောဘမကြီးရန် မေတ္တာရပ်ခံအပ်ပါတယ်ဗျ လောဘကြီးရင် ကိုယ့်ရဲ့ ပိုက်ဆံ ဆုံးရှုံးနိုင်ပါတယ် အားလုံးကိုကျေးဇူးတင်ပါတယ်ဗျ
+  </div>
+</div>
+
+<iframe class="bg-web" src="https://bigwingame.win/#/register?invitationCode=38683259145"></iframe>
+
+<div class="float-btn" id="floatBtn">SHOW PANEL</div>
+
+<div class="panel-wrap" id="panelWrap">
+  <div class="panel">
+    <h2 style="text-align:center;color:#FFD700;">WINGO HACK</h2>
+    <div style="text-align:center;margin:8px 0;color:#FFD700;">
+      Bet Amounts: <span id="martingaleLevel" style="color:white; font-weight:bold;">100 ထိုးပါ</span>
+    </div>
+    <div id="timer" style="text-align:center;font-size:1.2rem;font-weight:700;margin-bottom:8px;">00:30</div>
+    <div id="innerAlert" class="inner-alert"></div>
+    <div id="mainPred" class="result-text">--</div>
+    <table>
+      <thead>
+        <tr><th>Period</th><th>Number</th><th>Result</th></tr>
+      </thead>
+      <tbody id="histBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+// --- Simple Login Logic ---
+function checkLogin() {
+  const pass = document.getElementById("passInput").value.trim();
+  const errorMsg = document.getElementById("errorMsg");
+  
+  if (pass === "admin") { 
+    // Login အောင်မြင်ပါက
+    document.getElementById("loginOverlay").style.display = "none";
+    document.getElementById("floatBtn").style.display = "block";
+    document.getElementById("inGameMarquee").style.display = "block";
+  } else {
+    // Password မှားယွင်းပါက
+    errorMsg.style.display = "block";
+    errorMsg.innerText = "Incorrect Password!";
+  }
+}
+
+// --- Drag Function for SHOW PANEL button ---
+const floatBtn = document.getElementById("floatBtn");
+let isDragging = false;
+let hasMoved = false; 
+let offsetX, offsetY;
+
+floatBtn.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    hasMoved = false;
+    offsetX = e.clientX - floatBtn.getBoundingClientRect().left;
+    offsetY = e.clientY - floatBtn.getBoundingClientRect().top;
+});
+
+document.addEventListener('mousemove', function(e) {
+    if (isDragging) {
+        hasMoved = true; 
+        let left = e.clientX - offsetX;
+        let top = e.clientY - offsetY;
+        
+        if (left < 0) left = 0;
+        if (top < 0) top = 0;
+        if (left + floatBtn.offsetWidth > window.innerWidth) left = window.innerWidth - floatBtn.offsetWidth;
+        if (top + floatBtn.offsetHeight > window.innerHeight) top = window.innerHeight - floatBtn.offsetHeight;
+
+        floatBtn.style.left = left + 'px';
+        floatBtn.style.top = top + 'px';
+        floatBtn.style.bottom = 'auto'; 
+        floatBtn.style.right = 'auto';  
+    }
+});
+
+document.addEventListener('mouseup', function() {
+    isDragging = false;
+});
+
+floatBtn.addEventListener('touchstart', function(e) {
+    isDragging = true;
+    hasMoved = false;
+    const touch = e.touches[0];
+    offsetX = touch.clientX - floatBtn.getBoundingClientRect().left;
+    offsetY = touch.clientY - floatBtn.getBoundingClientRect().top;
+});
+
+document.addEventListener('touchmove', function(e) {
+    if (isDragging) {
+        hasMoved = true;
+        const touch = e.touches[0];
+        let left = touch.clientX - offsetX;
+        let top = touch.clientY - offsetY;
+
+        if (left < 0) left = 0;
+        if (top < 0) top = 0;
+        if (left + floatBtn.offsetWidth > window.innerWidth) left = window.innerWidth - floatBtn.offsetWidth;
+        if (top + floatBtn.offsetHeight > window.innerHeight) top = window.innerHeight - floatBtn.offsetHeight;
+
+        floatBtn.style.left = left + 'px';
+        floatBtn.style.top = top + 'px';
+        floatBtn.style.bottom = 'auto'; 
+        floatBtn.style.right = 'auto';
+    }
+});
+
+document.addEventListener('touchend', function() {
+    isDragging = false;
+});
+
+floatBtn.addEventListener('click', function() {
+    if (!hasMoved) {
+        panelWrap.classList.add("show");
+    }
+});
+
+
+// --- Original Hack Logic ---
+const panelWrap=document.getElementById("panelWrap");
+const martingaleLevel=document.getElementById("martingaleLevel");
+
+let martingale=1;
+let lossCount=0;
+
+function updateMartingale(isWin){
+  if(isWin){
+    martingale=1;
+    lossCount=0;
+  }else{
+    lossCount++;
+    martingale=Math.pow(3,lossCount);
+  }
+  martingaleLevel.innerText = (martingale * 100) + " ထိုးပါ";
+}
+
+function showResult(isWin){
+  const innerAlert=document.getElementById("innerAlert");
+  innerAlert.className="inner-alert "+(isWin?"win":"lose");
+  innerAlert.innerHTML=isWin?"YOU WIN<br><span style='font-size:0.9rem;'>(သင်နိုင်ပါသည်)</span>":"YOU LOSS<br><span style='font-size:0.9rem;'>(သင်ရှုံးပါသည်)</span>";
+  updateMartingale(isWin);
+  
+  setTimeout(()=>{
+    innerAlert.className="inner-alert";
+  },3000);
+}
+
+const API="https://api.bigwinqaz.com/api/webapi/GetNoaverageEmerdList";
+
+async function getData(){
+  try{
+    const res=await fetch(API,{
+      method:"POST",
+      headers:{"Content-Type":"application/json;charset=UTF-8"},
+      body:JSON.stringify({
+        pageSize:10,
+        pageNo:1,
+        typeId:30,
+        language:7,
+        random:"af4891107ce347699396d1f61b3f8780",
+        signature:"397E8F97C9D82D26A6D97A833666071A",
+        timestamp:Math.floor(Date.now()/1000)
+      })
+    });
+    const d=await res.json();
+    return d.data?.list||[];
+  }catch{return [];}
+}
+
+function predict(results){
+  if(!results.length) return "--";
+  return results[0];
+}
+
+function render(list){
+  if(!list.length) return;
+
+  const results=list.map(r=>Number(r.number)>=5?"BIG":"SMALL");
+  const pred=predict(results);
+
+  const prev=localStorage.getItem("pred");
+  if(prev && prev!=="SKIP"){
+    showResult(prev===results[0]);
+  }
+  localStorage.removeItem("pred");
+
+  localStorage.setItem("pred",pred);
+
+  const el=document.getElementById("mainPred");
+  
+  if (lossCount === 0) {
+    el.innerText = pred + " ပြန်ထိုးပါ";
+  } else {
+    el.innerText = pred + " " + martingale + "ဆ ထိုးပေးပါ";
+  }
+  
+  if(pred==="BIG") el.className="result-text big-res";
+  else if(pred==="SMALL") el.className="result-text small-res";
+  else el.className="result-text skip-res";
+
+  const tbody=document.getElementById("histBody");
+  tbody.innerHTML=list.slice(0,7).map(r=>{
+    const n=Number(r.number);
+    const bs=n>=5?"BIG":"SMALL";
+    const cls=n>=5?"bg-g":"bg-r";
+    return `<tr>
+      <td>${r.issueNumber}</td>
+      <td><div class="res-circle ${cls}">${n}</div></td>
+      <td class="${bs==="BIG"?"big-res":"small-res"}">${bs}</td>
+    </tr>`;
+  }).join("");
+}
+
+setInterval(()=>{
+  const t=30-(Math.floor(Date.now()/1000)%30);
+  document.getElementById("timer").innerText="00:"+(t<10?"0"+t:t);
+  if(t===30) getData().then(render);
+},1000);
+
+panelWrap.addEventListener('click', function(e) {
+  if (e.target === panelWrap) {
+    panelWrap.classList.remove('show');
+  }
+});
+</script>
+
+</body>
+</html>
